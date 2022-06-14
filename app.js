@@ -1,7 +1,10 @@
 const mongoose= require("mongoose");
 mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true});
 const fruitSchema= new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true
+  },
   rating: {
     type: Number,
     min: 1,
@@ -11,11 +14,11 @@ const fruitSchema= new mongoose.Schema({
 });
 const Fruit= mongoose.model("Fruit", fruitSchema);
 const fruit= new Fruit({
-  name: "Apple",
+  // name: "Apple",
   rating: 9,
   review: "Good choice to eat when we are hungry!"
 });
-fruit.save();
+ //fruit.save();
 const personSchema = new mongoose.Schema({
   name: String,
   age: Number
@@ -25,7 +28,7 @@ const person= new Person({
   name: "Arul",
   age: 36
 });
-// person.save();
+//  person.save();
 // const kiwi= new Fruit({
 //   name : "Kiwi",
 //   rating: 5,
@@ -47,9 +50,23 @@ Fruit.find(function(err, fruits){
   if(err){
     console.log(err);
   } else {
-    mongoose.connection.close();
+    // mongoose.connection.close();
     fruits.forEach(function(fruit){
       console.log(fruit.name);
     });
+  }
+});
+// Fruit.updateOne({_id: "62a710256d9dd438df93ab8d"}, {name: "Apple"}, function(err){
+//   if(err){
+//     console.log(err);
+//   } else {
+//     console.log("Successfully updated!");
+//   }
+// });
+Fruit.deleteOne({name: "Apple"}, function(err){
+  if(err){
+    console.log(err);
+  } else {
+    console.log("Deleted Successfully.");
   }
 });
